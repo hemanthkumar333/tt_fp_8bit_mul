@@ -45,17 +45,5 @@ module tb ();
       .clk    (clk),      // clock
       .rst_n  (rst_n)     // not reset
   );
-initial
-begin
-        // Apply different test cases
-        ui_in[3:0] = 4'b0000; ui_in[7:4] = 4'b0000; #10;
-        ui_in[3:0] = 4'b0001; ui_in[7:4] = 4'b0001; #10;
-        ui_in[3:0] = 4'b0010; ui_in[7:4] = 4'b0010; #10;
-        ui_in[3:0] = 4'b0100; ui_in[7:4] = 4'b0100; #10;
-        ui_in[3:0] = 4'b1000; ui_in[7:4] = 4'b1000; #10;
-        ui_in[3:0] = 4'b1111; ui_in[7:4] = 4'b1111; #10;
 
-        // End simulation
-        $stop;
-end
 endmodule
