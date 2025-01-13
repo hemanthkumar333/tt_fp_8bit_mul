@@ -45,5 +45,9 @@ module tb ();
       .clk    (clk),      // clock
       .rst_n  (rst_n)     // not reset
   );
+initial
+begin
+   ui_in[3:0] = 4'b1111; ui_in[7:4] = 4'b1111; #5
+end
 
 endmodule
