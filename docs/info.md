@@ -9,12 +9,15 @@ You can also include images in this folder and reference them in the markdown. E
 
 ## How it works
 
-Explain how your project works
+fp_mul_8bit
+Explain how your project fp_mul_8bit works
 
 ## How to test
 
-Explain how to use your project
+fp_mul_8bit
+Explain how to use your project fp_mul_8bit
 
 ## External hardware
 
-List external hardware used in your project (e.g. PMOD, LED display, etc), if any
+List external hardware used in your project (e.g. PMOD, LED display, etc), if any 
+no such hardware needed to test
