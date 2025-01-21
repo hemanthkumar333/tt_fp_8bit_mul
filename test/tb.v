@@ -47,7 +47,7 @@ module tb ();
   );
 initial
 begin
-   ui_in[3:0] = 4'b1111; ui_in[7:4] = 4'b1111; #5;
+   ui_in[7:0] = 8'b00000000; uio_in[7:0] = 8'b00000000; #5;
 end
 
 endmodule
