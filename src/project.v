@@ -49,7 +49,7 @@ integer i;
 
 always @ (flp_a or flp_b)
     begin
-		sign = flp_a[7] ^ flp_b[7];
+	sign = flp_a[7] ^ flp_b[7];
         exp_a = flp_a[6:4];
         exp_b = flp_b[6:4];
         fract_a = {1'b1, flp_a[3:1]}; // Implicit leading 1
@@ -58,7 +58,8 @@ always @ (flp_a or flp_b)
         exp_sum = exp_a + exp_b;
 
         // Remove bias
-        exp_unbiased = exp_sum - 3'b011;
+        exp_sum = exp_sum - 3'b011;
+	exp_unbiased = exp_sum[2:0];
 
         prod_dbl = fract_a * fract_b;
         prod = prod_dbl[5:2]; 
