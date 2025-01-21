@@ -36,7 +36,7 @@ input [7:0] flp_b;
 output [7:0] result;
 
 reg sign;
-reg [2:0] exponent;
+// reg [2:0] exponent;
 reg [3:0] prod;
 reg [7:0] result;
 reg [2:0] exp_a, exp_b;
@@ -74,19 +74,19 @@ always @ (flp_a or flp_b)
 						end
             end 
 
-            exponent = exp_unbiased;
-			if (flp_a[6:0] == 0 || flp_b[6:0] == 0) begin
-				result = 8'b0; 
-			end
-			else if (exp_unbiased > 3'b111) begin
-				 result = {sign, 3'b111, 4'b0}; // Overflow to infinity
-			end 
-			else if (exp_unbiased < 3'b000) begin
-				 result = 8'b0; // Underflow to zero
-			end 
-			else begin
-				 result = {sign, exp_unbiased, prod[3:0]}; // Normal case
-			end
+            // exponent = exp_unbiased;
+		if (flp_a[6:0] == 0 || flp_b[6:0] == 0) begin
+			result = 8'b0; 
+		end
+		else if (exp_unbiased > 3'b111) begin
+			 result = {sign, 3'b111, 4'b0}; // Overflow to infinity
+		end 
+		else if (exp_unbiased < 3'b000) begin
+			 result = 8'b0; // Underflow to zero
+		end 
+		else begin
+			 result = {sign, exp_unbiased, prod[3:0]}; // Normal case
+		end
         end
     end
  
