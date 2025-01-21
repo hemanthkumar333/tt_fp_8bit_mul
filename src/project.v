@@ -30,14 +30,14 @@ module tt_um_example (
     );
 endmodule
 
-module fp_mul_8bit(flp_a,flp_b,result);
+module fp_mul_8bit (flp_a,flp_b,result);
 input [7:0] flp_a;
 input [7:0] flp_b;   
 output [7:0] result;
 
-reg sign,
+reg sign;
 reg [2:0] exponent;
-reg [3:0] prod,
+reg [3:0] prod;
 reg [7:0] result;
 reg [2:0] exp_a, exp_b;
 reg [3:0] exp_sum; 
@@ -45,7 +45,7 @@ reg [3:0] fract_a, fract_b;
 reg [7:0] prod_dbl;
 reg [2:0] exp_unbiased;
   
-genvar i;
+integer i;
 
 always @ (flp_a or flp_b)
     begin
