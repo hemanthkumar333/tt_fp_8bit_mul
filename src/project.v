@@ -47,8 +47,19 @@ reg [2:0] exp_unbiased;
   
 integer i;
 
-always @ (flp_a or flp_b)
+always @ (*)
     begin
+	sign = 1'b0;
+        exp_a = 3'b0;
+        exp_b = 3'b0;
+        fract_a = 4'b0;
+        fract_b = 4'b0;
+        prod_dbl = 8'b0;
+        exp_sum = 4'b0;
+        exp_unbiased = 3'b0;
+        prod = 4'b0;
+        result = 8'b0;
+	    
 	sign = flp_a[7] ^ flp_b[7];
         exp_a = flp_a[6:4];
         exp_b = flp_b[6:4];
