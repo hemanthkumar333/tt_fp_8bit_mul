@@ -48,6 +48,8 @@ module tb ();
 initial
 begin
    ui_in[7:0] = 8'b00000000; uio_in[7:0] = 8'b00000000; #5;
+   ui_in[7:0] = 8'b01001000; uio_in[7:0] = 8'b01010100; #5;
+   ui_in[7:0] = 8'b00110000; uio_in[7:0] = 8'b10111000; #5;
 end
 
 endmodule
