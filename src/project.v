@@ -41,6 +41,7 @@ output reg [7:0] result;
 reg sign;
 reg [2:0] exp_a, exp_b;
 reg [4:0] fract_a, fract_b;
+reg signed [3:0] exp_unbiased;
 reg [9:0] prod_dbl;         // Full product (10-bit)
 reg [3:0] mantissa;         // Updated mantissa (after shifting)
 
@@ -51,6 +52,7 @@ always @ (*)
         exp_b = 3'b0;
         fract_a = 5'b0;
         fract_b = 5'b0;
+	exp_unbiased = 4'b0;
         prod_dbl = 10'b0;
         mantissa = 4'b0;
         result = 8'b0;
@@ -63,6 +65,8 @@ always @ (*)
         exp_b = flp_b[6:4];
         fract_a = (exp_a == 0) ? {1'b0, flp_a[3:0]} : {1'b1, flp_a[3:0]};
         fract_b = (exp_b == 0) ? {1'b0, flp_b[3:0]} : {1'b1, flp_b[3:0]};
+
+	exp_unbiased = exp_a + exp_b - 3'b011;
 
         // Step 3: Multiply mantissas
         prod_dbl = fract_a * fract_b;
@@ -85,5 +89,10 @@ always @ (*)
             // Normal result: Keep exponent and sign intact, only shift mantissa
             result = {sign, exp_a + exp_b - 3'b011, mantissa};
         end
+
+	// Handle overflow 
+	if (exp_unbiased >= 3'b111 & flp_a[6:0] != 0 & flp_b[6:0] != 0) begin
+		 result = {sign, 3'b111, 4'b0}; // Overflow to infinity
+   	end
     end
 endmodule
