@@ -35,7 +35,7 @@ async def test_fp_multiplication(dut):
 
     # Test Case 2
     dut._log.info("Starting Test Case 2")
-    flp_a = 0b01100000  # Input A (8-bit float)
+    flp_a = 0b00110000  # Input A (8-bit float)
     flp_b = 0b10111000  # Input B (8-bit float)
     expected_result = 0b10111000  # Expected result
     await perform_fp_multiplication_test(dut, flp_a, flp_b, expected_result)
