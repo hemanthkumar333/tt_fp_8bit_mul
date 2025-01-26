@@ -27,6 +27,7 @@ fp_mul_8bit uut (
 
 // assign uio_out = result;
 assign uio_oe  = 8'h0;
+assign uio_out = 8'h0;
 
   // List all unused inputs to prevent warnings
 wire _unused = &{ena, clk, rst_n};
@@ -43,15 +44,13 @@ reg [4:0] fract_a, fract_b;
 reg [9:0] prod_dbl;         // Full product (10-bit)
 reg [3:0] mantissa;         // Updated mantissa (after shifting)
 
-integer i;
-
 always @ (*)
     begin
 	sign = 1'b0;
         exp_a = 3'b0;
         exp_b = 3'b0;
-        fract_a = 4'b0;
-        fract_b = 4'b0;
+        fract_a = 5'b0;
+        fract_b = 5'b0;
         prod_dbl = 10'b0;
         mantissa = 4'b0;
         result = 8'b0;
