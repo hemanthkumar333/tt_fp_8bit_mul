@@ -31,7 +31,6 @@ async def test_fp_multiplication(dut):
     flp_b = 0b01010100  # Input B (8-bit float)
     expected_result = 0b01101110  # Expected result
     await perform_fp_multiplication_test(dut, flp_a, flp_b, expected_result)
-    await reset_dut(dut)
 
     # Test Case 2
     dut._log.info("Starting Test Case 2")
@@ -39,36 +38,50 @@ async def test_fp_multiplication(dut):
     flp_b = 0b10111000  # Input B (8-bit float)
     expected_result = 0b10111000  # Expected result
     await perform_fp_multiplication_test(dut, flp_a, flp_b, expected_result)
-    await reset_dut(dut)
 
-    # Test Case 3
+    # Test Case 3 
     dut._log.info("Starting Test Case 3")
+    flp_a = 0b01111110 # Input A (8-bit float)
+    flp_b = 0b11101010 # Input B (8-bit float)
+    expected_result = 0b11110000  # Expected result
+    await perform_fp_multiplication_test(dut, flp_a, flp_b, expected_result)
+
+    # Test Case 4
+    dut._log.info("Starting Test Case 4")
     flp_a = 0b01111110  # Input A (8-bit float)
     flp_b = 0b00010000  # Input B (8-bit float)
     expected_result = 0b01011110  # Expected result
     await perform_fp_multiplication_test(dut, flp_a, flp_b, expected_result)
-    await reset_dut(dut)
+   
 
-    # Test Case 4
-    dut._log.info("Starting Test Case 4")
+    # Test Case 5
+    dut._log.info("Starting Test Case 5")
     flp_a = 0b00000000  # Input A (8-bit float)
     flp_b = 0b00000000  # Input B (8-bit float)
     expected_result = 0b00000000  # Expected result
     await perform_fp_multiplication_test(dut, flp_a, flp_b, expected_result)
 
-    # Test Case 5
-    dut._log.info("Starting Test Case 5")
+    # Test Case 6
+    dut._log.info("Starting Test Case 6")
+    flp_a = 0b01111110  # Input A (8-bit float)
+    flp_b = 0b01111110  # Input B (8-bit float)
+    expected_result = 0b01110000  # Expected result
+    await perform_fp_multiplication_test(dut, flp_a, flp_b, expected_result)
+
+    # Test Case 7
+    dut._log.info("Starting Test Case 7")
     flp_a = 0b00000000  # Input A (8-bit float)
     flp_b = 0b00001000  # Input B (8-bit float)
     expected_result = 0b00000000  # Expected result
     await perform_fp_multiplication_test(dut, flp_a, flp_b, expected_result)
 
-    # Test Case 6
-    dut._log.info("Starting Test Case 6")
+    # Test Case 8
+    dut._log.info("Starting Test Case 8")
     flp_a = 0b00110000  # Input A (8-bit float)
     flp_b = 0b00110000  # Input B (8-bit float)
     expected_result = 0b00110000  # Expected result
     await perform_fp_multiplication_test(dut, flp_a, flp_b, expected_result)
+
 
 
 async def perform_fp_multiplication_test(dut, flp_a, flp_b, expected_result):
@@ -85,13 +98,6 @@ async def perform_fp_multiplication_test(dut, flp_a, flp_b, expected_result):
     dut._log.info(f"Actual result: {bin(dut.uo_out.value)}")
     assert dut.uo_out.value == expected_result, f"Test failed: {bin(dut.uo_out.value)} != {bin(expected_result)}"
 
-async def reset_dut(dut):
-    """Reset DUT between test cases."""
-    dut._log.info("Resetting DUT between test cases")
-    dut.rst_n.value = 0
-    await ClockCycles(dut.clk, 10)  # Wait for some clock cycles
-    dut.rst_n.value = 1
-    await ClockCycles(dut.clk, 5)  # Ensure reset is complete
 
 
     # Keep testing the module by changing the input values, waiting for
