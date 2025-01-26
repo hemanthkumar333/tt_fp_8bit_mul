@@ -42,8 +42,8 @@ reg sign;
 reg [2:0] exp_a, exp_b;
 reg [4:0] fract_a, fract_b;
 reg signed [3:0] exp_unbiased;
-reg [9:0] prod_dbl;         // Full product (10-bit)
-reg [3:0] mantissa;         // Updated mantissa (after shifting)
+reg [9:0] prod_dbl;         
+reg [3:0] mantissa;        
 
 always @ (*)
     begin
@@ -57,10 +57,8 @@ always @ (*)
         mantissa = 4'b0;
         result = 8'b0;
 	    
-        // Step 1: Compute the sign of the result
         sign = flp_a[7] ^ flp_b[7];
 
-        // Step 2: Extract exponent and mantissa
         exp_a = flp_a[6:4];
         exp_b = flp_b[6:4];
         fract_a = (exp_a == 0) ? {1'b0, flp_a[3:0]} : {1'b1, flp_a[3:0]};
@@ -68,29 +66,21 @@ always @ (*)
 
 	exp_unbiased = exp_a + exp_b - 3'b011;
 
-        // Step 3: Multiply mantissas
         prod_dbl = fract_a * fract_b;
 
-        // Step 4: Shift the mantissa based on product
         if (prod_dbl[9] == 1) begin
-            // If the most significant bit is 1, no shift needed
             mantissa = prod_dbl[9:6];  // Take the 4 MSBs
         end else begin
-            // If the most significant bit is 0, shift left by 1 bit
-            mantissa = prod_dbl[8:5];  // Take the 4 bits shifted left
-            // Shift another bit left if necessary (additional shift)
-            mantissa = mantissa << 1;  // Perform an extra left shift
+            mantissa = prod_dbl[8:5];  
+            mantissa = mantissa << 1;  
         end
 
-        // Step 5: Handle multiplication by zero case
         if (flp_a[6:0] == 0 || flp_b[6:0] == 0) begin
-            result = 8'b0;  // Multiplying by zero
+            result = 8'b0;  
         end else begin
-            // Normal result: Keep exponent and sign intact, only shift mantissa
             result = {sign, exp_a + exp_b - 3'b011, mantissa};
         end
 
-	// Handle overflow 
 	if (exp_unbiased >= 3'b111 & flp_a[6:0] != 0 & flp_b[6:0] != 0) begin
 		 result = {sign, 3'b111, 4'b0}; // Overflow to infinity
    	end
