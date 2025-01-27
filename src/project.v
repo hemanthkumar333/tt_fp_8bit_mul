@@ -68,21 +68,28 @@ always @ (*)
 
         prod_dbl = fract_a * fract_b;
 
-        if (prod_dbl[9] == 1) begin
-            mantissa = prod_dbl[9:6];  // Take the 4 MSBs
-        end else begin
+	if (prod_dbl[9] == 1) begin
             mantissa = prod_dbl[8:5];  
-            mantissa = mantissa << 1;  
-        end
-
+	    exp_unbiased = exp_unbiased + 1;
+        end else if (prod_dbl[9] != 1 & prod_dbl[8] == 1) begin
+            mantissa = prod_dbl[7:4]; 
+	end
+			
+        // multiplication by zero 
         if (flp_a[6:0] == 0 || flp_b[6:0] == 0) begin
             result = 8'b0;  
         end else begin
             result = {sign, exp_a + exp_b - 3'b011, mantissa};
         end
 
-	if (exp_unbiased >= 3'b111 & flp_a[6:0] != 0 & flp_b[6:0] != 0) begin
-		 result = {sign, 3'b111, 4'b0}; // Overflow to infinity
-   	end
+	if (exp_unbiased >= 3'b111 & flp_a[3:0] != 0 & flp_b[3:0] != 0) begin
+		result = {sign, 3'b111, 4'b0}; // Overflow to infinity
+	end else if (exp_unbiased < 3'b000 & flp_a[3:0] != 0 & flp_b[3:0] != 0) begin
+		if (exp_unbiased < -4) begin // Underflow or subnormal result
+			 result = 8'b0; // Too small to represent, set to zero
+		end else begin
+			 result = {sign, exp_unbiased[2:0], prod_dbl[7:4]};
+			 end
+		end	
     end
 endmodule
