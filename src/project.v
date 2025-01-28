@@ -85,10 +85,10 @@ always @ (*)
 	if (exp_unbiased >= 3'b111 & flp_a[3:0] != 0 & flp_b[3:0] != 0) begin
 		result = {sign, 3'b111, 4'b0}; // Overflow to infinity
 	end else if (exp_unbiased < 3'b000 & flp_a[3:0] != 0 & flp_b[3:0] != 0) begin
-		if (exp_unbiased < -4) begin // Underflow or subnormal result
+		if (exp_unbiased < -3) begin // Underflow or subnormal result
 			 result = 8'b0; // Too small to represent, set to zero
-		end else begin
-			 result = {sign, exp_unbiased[2:0], prod_dbl[7:4]};
+		end else begin //subnormal case
+			 result = {sign, 3'b000, prod_dbl[9:6] >> (-exp_unbiased)};
 			 end
 		end	
     end
